@@ -1,71 +1,71 @@
-// Relógio em tempo real
-setInterval(() => {
-    const now = new Date();
-    document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR');
-}, 1000);
+const WS_URL = 'ws://127.0.0.1:8000/ws';
+let ws;
 
-// ========================================================
-// CONEXÃO WEBSOCKET COM O BACK-END PYTHON
-// ========================================================
-const ws = new WebSocket('ws://127.0.0.1:8000/ws');
+function connectWebSocket() {
+    ws = new WebSocket(WS_URL);
 
-ws.onopen = () => {
-    console.log('🟢 Conectado ao servidor Centurion Backend (Python)');
-    // Poderíamos mudar a bolinha de status para verde real aqui
-};
-
-ws.onmessage = (event) => {
-    // Recebe os dados do Python
-    const data = JSON.parse(event.data);
-    
-    // Atualiza o Preço
-    const priceElement = document.querySelector('.price');
-    if(priceElement) {
-        const oldPrice = parseFloat(priceElement.innerText.replace('.', ''));
-        priceElement.innerText = data.preco.toLocaleString('pt-BR');
+    ws.onopen = function() {
+        console.log("🟢 Conectado ao WebSocket do Centurion!");
         
-        // Pisca em verde se subiu, vermelho se caiu
-        if (data.preco > oldPrice) {
-            priceElement.style.color = '#00ff66';
-        } else if (data.preco < oldPrice) {
-            priceElement.style.color = '#ff3333';
+        // Esconde a mensagem de espera no gráfico
+        const msgGrafico = document.getElementById('msg-grafico');
+        if (msgGrafico) msgGrafico.style.display = 'none';
+    };
+
+    ws.onmessage = function(event) {
+        try {
+            const data = JSON.parse(event.data);
+            
+            // 1. Atualiza o Relógio e Preço Principal
+            document.getElementById('clock').innerText = data.timestamp;
+            document.getElementById('preco-atual').innerText = data.preco;
+            
+            // 2. Atualiza os Indicadores e suas Barras Visuais
+            const estocasticoEl = document.getElementById('valor-estocastico');
+            const barEstocastico = document.getElementById('bar-estocastico');
+            if (estocasticoEl) estocasticoEl.innerText = data.estocastico;
+            if (barEstocastico) barEstocastico.style.width = data.estocastico + '%';
+
+            const ifrEl = document.getElementById('valor-ifr');
+            const barIfr = document.getElementById('bar-ifr');
+            if (ifrEl) ifrEl.innerText = data.ifr;
+            if (barIfr) barIfr.style.width = data.ifr + '%';
+
+            const neblinaEl = document.getElementById('valor-neblina');
+            const barNeblina = document.getElementById('bar-neblina');
+            if (neblinaEl) neblinaEl.innerText = data.neblina;
+            if (barNeblina) barNeblina.style.width = data.neblina + '%';
+
+            // 3. Atualiza o Motor de Sinais (Centro inferior)
+            const sinalEl = document.getElementById('sinal-motor');
+            const motivoEl = document.getElementById('motivo-motor');
+            
+            if (sinalEl) {
+                sinalEl.innerText = data.sinal;
+                
+                // Muda a cor do texto baseado no sinal
+                if (data.sinal === "COMPRA") {
+                    sinalEl.style.color = "#00ff00"; // Verde Neon
+                } else if (data.sinal === "VENDA") {
+                    sinalEl.style.color = "#ff0000"; // Vermelho
+                } else {
+                    sinalEl.style.color = "#ffd700"; // Dourado (Aguardar)
+                }
+            }
+            
+            // Atualiza o motivo (ex: "Bloqueado: Fora do Horário")
+            if (motivoEl) motivoEl.innerText = data.motivo;
+
+        } catch (error) {
+            console.error("Erro ao processar os dados:", error);
         }
-    }
+    };
 
-    // Atualiza o Sinal de Execução (Painel Central)
-    const signalDiv = document.querySelector('.signal');
-    const signalH2 = signalDiv.querySelector('h2');
-    
-    if (data.sinal === 'COMPRA') {
-        signalDiv.className = 'signal buy';
-        signalH2.innerText = 'COMPRA';
-    } else if (data.sinal === 'VENDA') {
-        signalDiv.className = 'signal sell';
-        signalDiv.style.background = 'rgba(255, 51, 51, 0.1)';
-        signalDiv.style.borderLeft = '4px solid #ff3333';
-        signalH2.innerText = 'VENDA';
-        signalH2.style.color = '#ff3333';
-    } else {
-        signalDiv.className = 'signal wait';
-        signalDiv.style.background = 'rgba(255, 255, 255, 0.1)';
-        signalDiv.style.borderLeft = '4px solid #fff';
-        signalH2.innerText = 'AGUARDAR';
-        signalH2.style.color = '#fff';
-    }
+    ws.onclose = function() {
+        console.log("🔴 Desconectado. Tentando reconectar...");
+        setTimeout(connectWebSocket, 3000); // Tenta reconectar sozinho
+    };
+}
 
-    // Atualiza a Neblina (Shannon)
-    const neblinaBar = document.querySelectorAll('.bar .fill')[2]; // Terceira barra (Shannon)
-    if(neblinaBar) {
-        neblinaBar.style.width = `${data.neblina}%`;
-        // Se a neblina for alta (muita entropia), fica vermelho. Se baixa, verde.
-        if (data.neblina > 60) {
-            neblinaBar.className = 'fill danger';
-        } else {
-            neblinaBar.className = 'fill';
-        }
-    }
-};
-
-ws.onerror = (error) => {
-    console.error('🔴 Erro no WebSocket:', error);
-};
+// Inicia a conexão quando a página carregar
+window.addEventListener('load', connectWebSocket);

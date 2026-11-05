@@ -119,4 +119,4 @@ def analisar_confluencia(arquivo_csv):
         print(f"[VENDAS - VERMELHO] Média: {vendas['Max_Favor'].mean():.1f} pts | Pior: {vendas['Max_Favor'].min():.1f} | <100 pts: {len(vendas[vendas['Max_Favor'] < 100])} de {len(vendas)}")
 
 if __name__ == "__main__":
-    analisar_confluencia('win_hoje.csv')
+    analisar_confluencia('win_hoje.csv')        
