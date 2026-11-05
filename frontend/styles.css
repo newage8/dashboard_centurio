@@ -1,0 +1,138 @@
+:root {
+    --bg-color: #050505;
+    --panel-bg: rgba(20, 30, 25, 0.6);
+    --border-color: #1a3c2b;
+    --text-main: #e0e0e0;
+    --text-muted: #88998f;
+    --gold: #d4af37;
+    --green: #00ff66;
+    --red: #ff3333;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-color);
+    background-image: radial-gradient(circle at 50% 0%, rgba(0, 255, 102, 0.05) 0%, transparent 70%);
+    color: var(--text-main);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(0,0,0,0.8);
+}
+
+.logo-area h1 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    letter-spacing: 2px;
+    font-size: 24px;
+}
+
+.subtitle { font-size: 10px; color: var(--text-muted); letter-spacing: 4px; }
+
+.market-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 255, 102, 0.1);
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--green);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-indicator { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+
+.time-area { text-align: right; }
+.time-area h2 { font-size: 24px; color: #fff; font-weight: 300; }
+.time-area span { font-size: 11px; color: var(--text-muted); }
+
+.asset-selector select {
+    background: var(--panel-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+}
+
+/* GRID */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 20px;
+    padding: 20px 30px;
+}
+
+.panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+}
+
+.panel h3 {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 10px;
+}
+
+/* CONTEXTO */
+.metric { margin-bottom: 15px; font-size: 12px; display: flex; justify-content: space-between; align-items: center;}
+.bar { flex-grow: 1; height: 6px; background: #111; margin: 0 15px; border-radius: 3px; overflow: hidden; }
+.fill { height: 100%; background: var(--green); }
+.fill.danger { background: var(--red); }
+
+/* CHART */
+.chart-placeholder {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--border-color);
+    border-radius: 5px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    background: url('https://www.transparenttextures.com/patterns/cubes.png');
+}
+
+.chart-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.price { font-size: 20px; color: var(--green); font-weight: 600; }
+
+.execution-summary { display: flex; gap: 20px; align-items: center; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);}
+.signal.buy { background: rgba(0, 255, 102, 0.1); padding: 10px 20px; border-radius: 5px; border-left: 4px solid var(--green); }
+.signal.buy h2 { color: var(--green); font-family: 'Cinzel', serif; }
+.signal.buy span { font-size: 10px; color: var(--text-muted); }
+.info { font-size: 12px; color: var(--text-muted); display: flex; flex-direction: column; }
+.info strong { color: #fff; font-size: 16px; margin-top: 5px; }
+
+/* VITIS & AIA */
+.right-column { display: flex; flex-direction: column; gap: 20px; }
+
+.risk-metrics .info { flex-direction: row; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; }
+.risk-metrics .info strong { font-size: 14px; }
+.danger-text { color: var(--red); }
+.success-text { color: var(--green); }
+
+.news-feed { list-style: none; }
+.news-feed li { font-size: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; gap: 10px; align-items: center; }
+.time { color: var(--text-muted); font-size: 10px; width: 40px;}
+.tag { font-size: 9px; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+.tag.alta { background: rgba(0, 255, 102, 0.2); color: var(--green); }
+.tag.neutro { background: rgba(255, 255, 255, 0.1); color: #fff; }

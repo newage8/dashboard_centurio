@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centurion Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-area">
+            <h1>CENTURIO</h1>
+            <span class="subtitle">INTELLIGENCE DASHBOARD</span>
+        </div>
+        <div class="market-status">
+            <span class="status-indicator online"></span> MERCADO ABERTO
+        </div>
+        <div class="time-area">
+            <h2 id="clock">15:30:00</h2>
+            <span>05/11/2026</span>
+        </div>
+        <div class="asset-selector">
+            <select id="asset">
+                <option value="WINZ26">WINZ26</option>
+                <option value="WDOZ26">WDOZ26</option>
+            </select>
+            <select id="timeframe">
+                <option value="M5">M5</option>
+                <option value="Renko">Renko</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- MAIN GRID -->
+    <main class="dashboard-grid">
+        
+        <!-- COLUNA ESQUERDA: CONTEXTO DE MERCADO -->
+        <section class="panel context-panel">
+            <h3>CONTEXTO DE MERCADO</h3>
+            <div class="metrics">
+                <div class="metric"><span>MACRO</span> <div class="bar"><div class="fill" style="width: 72%"></div></div> <span>COMPRADOR</span></div>
+                <div class="metric"><span>MICRO</span> <div class="bar"><div class="fill" style="width: 58%"></div></div> <span>COMPRADOR</span></div>
+                <div class="metric"><span>NEBLINA (SHANNON)</span> <div class="bar"><div class="fill danger" style="width: 30%"></div></div> <span>BAIXA</span></div>
+            </div>
+        </section>
+
+        <!-- CENTRO: CHART E SINAL -->
+        <section class="panel chart-panel">
+            <div class="chart-header">
+                <h3>WINZ26 • M5</h3>
+                <span class="price">129.650</span>
+            </div>
+            <div class="chart-placeholder">
+                <!-- Aqui entrará o gráfico em tempo real -->
+                <p>Gráfico M5 & Renko (Aguardando WebSocket)</p>
+            </div>
+            
+            <div class="execution-summary">
+                <div class="signal buy">
+                    <h2>COMPRA</h2>
+                    <span>ALTA CONFLUÊNCIA</span>
+                </div>
+                <div class="info"><span>AMPLITUDE</span> 150,17</div>
+                <div class="info"><span>MOMENTUM</span> FORTE</div>
+            </div>
+        </section>
+
+        <!-- COLUNA DIREITA: VITIS (GESTÃO DE RISCO) & A.I.A -->
+        <section class="right-column">
+            <div class="panel vitis-panel">
+                <h3>VITIS • GESTÃO DE RISCO</h3>
+                <div class="risk-metrics">
+                    <div class="info"><span>RISCO DA OPERAÇÃO</span> <strong>0,75%</strong></div>
+                    <div class="info"><span>DRAWDOWN (DIA)</span> <strong class="danger-text">-0,28%</strong></div>
+                    <div class="info"><span>STOP DISCIPLINA</span> <strong class="success-text">ATIVO</strong></div>
+                </div>
+            </div>
+
+            <div class="panel aia-panel">
+                <h3>A.I.A • INTELIGÊNCIA MACRO</h3>
+                <ul class="news-feed">
+                    <li><span class="time">17:12</span> <span class="tag alta">ALTA</span> Fed membros sinalizam cautela...</li>
+                    <li><span class="time">16:58</span> <span class="tag neutro">NEUTRO</span> Nasdaq mantém força com big techs...</li>
+                    <li><span class="time">16:34</span> <span class="tag alta">ALTA</span> Dados de emprego dos EUA acima...</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
